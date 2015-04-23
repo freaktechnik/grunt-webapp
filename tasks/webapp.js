@@ -30,7 +30,7 @@ module.exports = function(grunt) {
         }
 
         var images = {};
-        grunt.file.exapnd(options.images).forEach(function(filepath) {
+        grunt.file.expand(options.icons).forEach(function(filepath) {
             var size = sizeOf(filepath).height;
             images[size] = filepath;
         });

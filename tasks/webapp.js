@@ -8,11 +8,14 @@
 
 'use strict';
 
+var sizeOf = require('image-size');
+
 module.exports = function(grunt) {
     grunt.registerMultiTask('webapp', 'Generate webapp manifests with grunt', function() {
         // Merge task-specific and/or target-specific options with these defaults.
         var options = this.options({
           localeDir: '',
+          icons: 'images/icon-*.png',
           target: 'web'
         });
 
@@ -25,6 +28,12 @@ module.exports = function(grunt) {
                 locales[lang] = grunt.file.readJSON(filepath);
             });
         }
+
+        var images = {};
+        grunt.file.exapnd(options.images).forEach(function(filepath) {
+            var size = sizeOf(filepath).height;
+            images[size] = filepath;
+        });
 
         // Iterate over all specified file groups.
         this.files.forEach(function(f) {
@@ -44,6 +53,7 @@ module.exports = function(grunt) {
                   // Read file source.
                   return grunt.file.readJSON(filepath);
             }).forEach(function(manifest) {
+                // Get info from package.json
                 manifest.name = pkg.name;
                 manifest.version = pkg.version;
                 if("description" in pkg) {
@@ -69,6 +79,10 @@ module.exports = function(grunt) {
                     }
                 }
 
+                // Set images found with the icon file pattern
+                manifest.icons = images;
+
+                // Set translations if localeDir option is set
                 if(options.localeDir) {
                     manifest.locales = locales;
                 }

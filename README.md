@@ -54,6 +54,12 @@ Default value: `'web'`
 This should either be set to `'web'` or `'packaged'`. If set to `'packaged'`,
 the `appcache_path` property is removed if it exists.
 
+#### options.icons
+Type: `String`
+Default value: `'images/icon-*.png'`
+
+Icon files pattern to use in the icons property
+
 ### Usage Examples
 
 #### Default Options

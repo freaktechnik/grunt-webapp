@@ -1,7 +1,7 @@
 {
   "name": "grunt-webapp",
   "description": "Generate webapp manifests with grunt",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "homepage": "https://github.com/freaktechnik/grunt-webapp",
   "author": {
     "name": "Martin Giger",
@@ -43,5 +43,8 @@
     "manifest",
     "firefox os",
     "firefoxos"
-  ]
+  ],
+  "dependencies": {
+    "image-size": "^0.3.5"
+  }
 }

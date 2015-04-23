@@ -21,7 +21,7 @@ module.exports = function(grunt) {
         var locales = {};
         if(options.localeDir) {
             grunt.file.expand(options.localeDir+'/*/manifest.json').forEach(function(filepath) {
-                var lang = filepath.match(new RegExp(options.localeDir+"\/([A-Za-z\-]+)\/"))[1];
+                var lang = filepath.match(new RegExp(options.localeDir+"\/([^\/]+)\/"))[1];
                 locales[lang] = grunt.file.readJSON(filepath);
             });
         }
@@ -36,7 +36,7 @@ module.exports = function(grunt) {
                     return false;
                 } else if(!filepath.match(/\.webapp$/)) {
                     grunt.log.warn('Source file "'+ filepath + '" is not a webapp manifest');
-                    return false
+                    return false;
                 } else {
                     return true;
                 }
@@ -46,8 +46,9 @@ module.exports = function(grunt) {
             }).forEach(function(manifest) {
                 manifest.name = pkg.name;
                 manifest.version = pkg.version;
-                if("description" in pkg)
+                if("description" in pkg) {
                     manifest.description = pkg.description;
+                }
                 if("author" in pkg) {
                     manifest.developer = {};
                     if("name" in pkg.author) {
@@ -73,13 +74,13 @@ module.exports = function(grunt) {
                 }
 
                 // Appcache paths are forbidden in packaged manifests
-                if(target == 'packaged' && "appcache_path" in manifest) {
+                if(options.target === 'packaged' && "appcache_path" in manifest) {
                     delete manifest.appcache_path;
                 }
 
                 // Packaged apps need a launch path
-                if(target == 'pakaged' && !("launch_path" in manifest) {
-                    grunt.log.warn('No launch path specified in "'+filepath+'"');
+                if(options.target === 'pakaged' && !("launch_path" in manifest)) {
+                    grunt.log.warn('No launch path specified in manifest');
                 }
 
                 grunt.file.write(f.dest, JSON.stringify(manifest));
@@ -88,5 +89,4 @@ module.exports = function(grunt) {
             });
         });
     });
-
 };

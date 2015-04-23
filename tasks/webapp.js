@@ -9,42 +9,84 @@
 'use strict';
 
 module.exports = function(grunt) {
+    grunt.registerMultiTask('webapp', 'Generate webapp manifests with grunt', function() {
+        // Merge task-specific and/or target-specific options with these defaults.
+        var options = this.options({
+          localeDir: '',
+          target: 'web'
+        });
 
-  // Please see the Grunt documentation for more information regarding task
-  // creation: http://gruntjs.com/creating-tasks
+        var pkg = grunt.file.readJSON('package.json');
 
-  grunt.registerMultiTask('webapp', 'Generate webapp manifests with grunt', function() {
-    // Merge task-specific and/or target-specific options with these defaults.
-    var options = this.options({
-      punctuation: '.',
-      separator: ', '
-    });
-
-    // Iterate over all specified file groups.
-    this.files.forEach(function(f) {
-      // Concat specified files.
-      var src = f.src.filter(function(filepath) {
-        // Warn on and remove invalid source files (if nonull was set).
-        if (!grunt.file.exists(filepath)) {
-          grunt.log.warn('Source file "' + filepath + '" not found.');
-          return false;
-        } else {
-          return true;
+        var locales = {};
+        if(options.localeDir) {
+            grunt.file.expand(options.localeDir+'/*/manifest.json').forEach(function(filepath) {
+                var lang = filepath.match(new RegExp(options.localeDir+"\/([A-Za-z\-]+)\/"))[1];
+                locales[lang] = grunt.file.readJSON(filepath);
+            });
         }
-      }).map(function(filepath) {
-        // Read file source.
-        return grunt.file.read(filepath);
-      }).join(grunt.util.normalizelf(options.separator));
 
-      // Handle options.
-      src += options.punctuation;
+        // Iterate over all specified file groups.
+        this.files.forEach(function(f) {
+            // Concat specified files.
+            var src = f.src.filter(function(filepath) {
+                // Warn on and remove invalid source files (if nonull was set).
+                if (!grunt.file.exists(filepath)) {
+                    grunt.log.warn('Source file "' + filepath + '" not found.');
+                    return false;
+                } else if(!filepath.match(/\.webapp$/)) {
+                    grunt.log.warn('Source file "'+ filepath + '" is not a webapp manifest');
+                    return false
+                } else {
+                    return true;
+                }
+            }).map(function(filepath) {
+                  // Read file source.
+                  return grunt.file.readJSON(filepath);
+            }).forEach(function(manifest) {
+                manifest.name = pkg.name;
+                manifest.version = pkg.version;
+                if("description" in pkg)
+                    manifest.description = pkg.description;
+                if("author" in pkg) {
+                    manifest.developer = {};
+                    if("name" in pkg.author) {
+                        manifest.developer.name = pkg.author.name;
+                        if("url" in pkg.author) {
+                            manifest.developer.url = pkg.author.url;
+                        }
+                    }
+                    else {
+                        // Parse the author shorthand
+                        var developer = pkg.author.match(/^([^\(<]+)/);
+                        var url = pkg.author.match(/\(([^\)]+)\)/);
 
-      // Write the destination file.
-      grunt.file.write(f.dest, src);
+                        manifest.developer.name = developer[1];
+                        if(url) {
+                            manifest.developer.url = url;
+                        }
+                    }
+                }
 
-      // Print a success message.
-      grunt.log.writeln('File "' + f.dest + '" created.');
+                if(options.localeDir) {
+                    manifest.locales = locales;
+                }
+
+                // Appcache paths are forbidden in packaged manifests
+                if(target == 'packaged' && "appcache_path" in manifest) {
+                    delete manifest.appcache_path;
+                }
+
+                // Packaged apps need a launch path
+                if(target == 'pakaged' && !("launch_path" in manifest) {
+                    grunt.log.warn('No launch path specified in "'+filepath+'"');
+                }
+
+                grunt.file.write(f.dest, JSON.stringify(manifest));
+
+                grunt.log.ok('Webapp manifest "' + f.dest +'" written');
+            });
+        });
     });
-  });
 
 };

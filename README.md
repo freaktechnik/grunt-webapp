@@ -1,6 +1,6 @@
 # grunt-webapp
 
-> Generate webapp manifests with grunt
+> Generate webapp manifests with grunt. It takes as much information as possible from your package.json file.
 
 ## Getting Started
 This plugin requires Grunt `~0.4.5`
@@ -26,10 +26,11 @@ In your project's Gruntfile, add a section named `webapp` to the data object pas
 grunt.initConfig({
   webapp: {
     options: {
-      // Task-specific options go here.
+      localeDir: 'locale',
+      target: 'web'
     },
     your_target: {
-      // Target-specific file lists and/or options go here.
+      'manifest.webapp': 'dist/manifest.webapp'
     },
   },
 });
@@ -37,17 +38,21 @@ grunt.initConfig({
 
 ### Options
 
-#### options.separator
+#### options.localeDir
 Type: `String`
-Default value: `',  '`
+Default value: `''`
 
-A string value that is used to do something with whatever.
+The directory containing localizations for the webapp manifest with a subdirectory
+per language, each containing a "manifest.json" with the two properties `name`
+and `description`. If not specified, the locale property of the webapp manifest
+will remain untouched.
 
-#### options.punctuation
+#### options.target
 Type: `String`
-Default value: `'.'`
+Default value: `'web'`
 
-A string value that is used to do something else with whatever else.
+This should either be set to `'web'` or `'packaged'`. If set to `'packaged'`,
+the `appcache_path` property is removed if it exists.
 
 ### Usage Examples
 

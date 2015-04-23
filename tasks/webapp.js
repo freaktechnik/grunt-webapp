@@ -16,6 +16,7 @@ module.exports = function(grunt) {
         var options = this.options({
           localeDir: '',
           icons: 'images/icon-*.png',
+          iconsTarget: '',
           target: 'web'
         });
 
@@ -32,7 +33,12 @@ module.exports = function(grunt) {
         var images = {};
         grunt.file.expand(options.icons).forEach(function(filepath) {
             var size = sizeOf(filepath).height;
-            images[size] = filepath;
+            if(options.iconsTarget) {
+                images[size] = options.iconsTarget.replace("{size}", size);
+            }
+            else {
+                images[size] = filepath;
+            }
         });
 
         // Iterate over all specified file groups.

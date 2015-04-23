@@ -60,6 +60,13 @@ Default value: `'images/icon-*.png'`
 
 Icon files pattern to use in the icons property
 
+#### options.iconsTarget
+Type: `String`
+Default value: `''`
+
+Icon URL pattern to use in the manifest, if you move your icon files around.
+You can use a {size} placeholder, which will be replaced with the icon's size.
+
 ### Usage Examples
 
 #### Default Options

@@ -1,0 +1,47 @@
+{
+  "name": "grunt-webapp",
+  "description": "Generate webapp manifests with grunt",
+  "version": "0.1.0",
+  "homepage": "https://github.com/freaktechnik/grunt-webapp",
+  "author": {
+    "name": "Martin Giger",
+    "email": "martin@humanoids.be",
+    "url": "http://humanoids.be"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/freaktechnik/grunt-webapp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/freaktechnik/grunt-webapp/issues"
+  },
+  "licenses": [
+    {
+      "type": "MPL-2.0",
+      "url": "https://github.com/freaktechnik/grunt-webapp/blob/master/LICENSE"
+    }
+  ],
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "devDependencies": {
+    "grunt-contrib-jshint": "^0.9.2",
+    "grunt-contrib-clean": "^0.5.0",
+    "grunt-contrib-nodeunit": "^0.3.3",
+    "grunt": "~0.4.5"
+  },
+  "peerDependencies": {
+    "grunt": "~0.4.5"
+  },
+  "keywords": [
+    "gruntplugin",
+    "webapp",
+    "openwebapp",
+    "manifest",
+    "firefox os",
+    "firefoxos"
+  ]
+}

@@ -3,4 +3,10 @@ language: node_js
 install:
 - npm install -g grunt-cli
 - npm install
-
+deploy:
+  provider: npm
+  email: martin@humanoids.be
+  on:
+    tags: true
+  api_key:
+    secure: oUHSdJJwiIvC9dF96ZvzVrSugCmeyl/6A+gobgppzMj6ihvvzdPe8S8KxuQtvae8m4VQ+CrNEtfzHI7lxOtNcOstB/ssCKTeB6qSewDy2+cS06t0612zr+XzLXPfDy3uOlEopHHPaUfA7VMY6L+Z6NcnsRIE4SJN7EbZNKtxX3A=

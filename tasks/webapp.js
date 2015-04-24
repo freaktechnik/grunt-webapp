@@ -103,7 +103,7 @@ module.exports = function(grunt) {
                     grunt.log.warn('No launch path specified in manifest');
                 }
 
-                grunt.file.write(f.dest, JSON.stringify(manifest));
+                grunt.file.write(f.dest, JSON.stringify(manifest, null, 2));
 
                 grunt.log.ok('Webapp manifest "' + f.dest +'" written');
             });

@@ -60,7 +60,7 @@ module.exports = function(grunt) {
                   return grunt.file.readJSON(filepath);
             }).forEach(function(manifest) {
                 // Get info from package.json
-                manifest.name = pkg.name;
+                manifest.name = pkg.title || pkg.name;
                 manifest.version = pkg.version;
                 if("description" in pkg) {
                     manifest.description = pkg.description;

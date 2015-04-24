@@ -1,0 +1,16 @@
+{
+  "launch_path": "{%= main %}",
+  "default_locale": "{%= default_locale %}",
+  "appcache_path": "/manifest.appcache",
+  "fullscreen": "true",
+  "name": "grunt-webapp",
+  "version": "0.3.2",
+  "description": "Generate webapp manifests with grunt",
+  "developer": {
+    "name": "Martin Giger",
+    "url": "http://humanoids.be"
+  },
+  "icons": {
+    "128": "images/icon-128.png"
+  }
+}

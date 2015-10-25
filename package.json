@@ -1,7 +1,7 @@
 {
   "name": "grunt-webapp",
   "description": "Generate webapp manifests with grunt",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "homepage": "https://github.com/freaktechnik/grunt-webapp",
   "author": {
     "name": "Martin Giger",

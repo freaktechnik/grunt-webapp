@@ -12,15 +12,15 @@ var sizeOf = require('image-size');
 
 module.exports = function(grunt) {
     grunt.registerMultiTask('webapp', 'Generate webapp manifests with grunt', function() {
+        var pkg = grunt.file.readJSON('package.json');
+
         // Merge task-specific and/or target-specific options with these defaults.
         var options = this.options({
           localeDir: '',
           icons: 'images/icon-*.png',
-          iconsTarget: '',
-          target: 'web'
+          target: 'web',
+          version: pkg.version
         });
-
-        var pkg = grunt.file.readJSON('package.json');
 
         var locales = {};
         if(options.localeDir) {
@@ -61,7 +61,7 @@ module.exports = function(grunt) {
             }).forEach(function(manifest) {
                 // Get info from package.json
                 manifest.name = pkg.title || pkg.name;
-                manifest.version = pkg.version;
+                manifest.version = options.version;
                 if("description" in pkg) {
                     manifest.description = pkg.description;
                 }
@@ -103,7 +103,7 @@ module.exports = function(grunt) {
                     grunt.log.warn('No launch path specified in manifest');
                 }
 
-                grunt.file.write(f.dest, JSON.stringify(manifest, null, 2));
+                grunt.file.write(f.dest, JSON.stringify(manifest, null, 2) + "\n");
 
                 grunt.log.ok('Webapp manifest "' + f.dest +'" written');
             });

@@ -4,7 +4,7 @@
   "appcache_path": "/manifest.appcache",
   "fullscreen": "true",
   "name": "grunt-webapp",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "Generate webapp manifests with grunt",
   "developer": {
     "name": "Martin Giger",

@@ -1,4 +1,6 @@
 # grunt-webapp
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/freaktechnik/grunt-webapp.svg)](https://greenkeeper.io/)
 [![Build Status](https://travis-ci.org/freaktechnik/grunt-webapp.svg?branch=master)](https://travis-ci.org/freaktechnik/grunt-webapp)
 
 > Generate webapp manifests with grunt. It takes as much information as possible from your package.json file.
